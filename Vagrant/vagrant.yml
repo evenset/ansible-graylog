@@ -1,0 +1,20 @@
+---
+
+- name: Provision a Graylog server
+  hosts: all
+  become: yes
+  become_user: root
+  remote_user: root
+  vars:
+    setup_git_repo: no  # set to no for local development and map your local git repo in the Vagrantfile instead
+    setup_certbot: no # TODO: Move to production inventory
+    update_apt_cache: yes
+  vars_files:
+    - env_vars/base.yml
+    - env_vars/vagrant.yml
+  roles:
+    - base
+    #- certbot # TODO: Move to production inventory
+    - graylog
+    - nginx # TODO: Move to production inventory ??
+    - ufw # TODO: Move to production inventory ??

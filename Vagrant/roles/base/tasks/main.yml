@@ -1,0 +1,86 @@
+---
+
+- include: swap_file.yml
+  when: create_swap_file
+  tags: swap
+
+# - name: Install security updates
+#   apt: default_release={{ ansible_distribution_release }}-security
+#        update_cache={{ update_apt_cache }}
+#        upgrade=dist
+#   tags:
+#     - packages
+#     - skip_ansible_lint
+
+# - name: Ensure bash, OpenSSL, and libssl are the latest versions
+#   apt: name={{ item }} update_cache={{ update_apt_cache }} state=latest
+#   with_items:
+#     - bash
+#     - openssl
+#     - libssl-dev
+#     - libssl-doc
+#   tags: packages
+
+- name: Install base packages
+  apt: name={{ item }} update_cache={{ update_apt_cache }} state=installed
+  with_items:
+    - build-essential
+    - acl
+    - ntp
+    - htop
+    - git
+  tags:
+    - packages
+    - packages.security
+
+
+# ---
+
+# - include: swap_file.yml
+#   when: create_swap_file
+#   tags: swap
+
+# - name: Install security updates
+#   apt: default_release={{ ansible_distribution_release }}-security
+#        update_cache={{ update_apt_cache }}
+#        upgrade=dist
+#   tags:
+#     - packages
+#     - skip_ansible_lint
+
+# # - name: Ensure bash, OpenSSL, and libssl are the latest versions
+# #   apt: name={{ item }} update_cache={{ update_apt_cache }} state=latest
+# #   with_items:
+# #     - bash
+# #     - openssl
+# #     - libssl-dev
+# #     - libssl-doc
+# #   tags: packages
+
+# - name: Install base packages
+#   apt: name={{ item }} update_cache={{ update_apt_cache }} state=installed
+#   with_items:
+#     - build-essential
+#     - acl
+#     - ntp
+#     - htop
+#     - git
+#     - software-properties-common
+#     - python-software-properties
+#   tags:
+#     - packages
+#     - packages.security
+
+# # - name: Update repository links
+# #   apt_repository: name={{ item }} update_cache={{ update_apt_cache }} state=present
+# #   with_ite
+# #   ms:
+# #     #- main
+# #     - universe
+
+# # - name: Update and upgrade apt packages
+# #   become: true
+# #   apt:
+# #     upgrade: yes
+# #     update_cache: yes
+# #     #cache_valid_time: 86400 #One day
