@@ -1,0 +1,14 @@
+---
+
+ansible_python_interpreter: /usr/bin/python3  # remove this var if you're using an Ubuntu version older than 16.04
+base_python_package: "{{ ansible_python_interpreter | default('/usr/bin/python') | basename }}"
+
+
+server_user: root
+
+
+
+create_swap_file: no # TODO Might need to set this to yes
+swap_file_path: /SWAPFILE
+swap_file_size_kb: 1024 # TODO Might need more space
+
