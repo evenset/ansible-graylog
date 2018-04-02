@@ -8,7 +8,7 @@ remote_user: root
 #git_branch: develop
 
 # Nginx settings.
-nginx_server_name: 192.198.20.20
+nginx_server_name: 192.168.20.20 # TODO: Set to server (Use localhost for testing?)
 nginx_strong_dh_group: no
 nginx_static_dir: static
 nginx_use_letsencrypt: no
@@ -21,3 +21,15 @@ nginx_strong_dh_group: no # TODO: Set to true for production
 
 # Node related
 node_server_path: http://localhost:5000
+
+# MongdoDB Settings
+mongodb_service_name: mongod
+mongodb_user: mongodb
+mongodb_group: mongodb
+mongodb_packages:
+  - "mongodb-org={{ mongodb_version }}"
+  - "mongodb-org-server={{ mongodb_version }}"
+  - "mongodb-org-shell={{ mongodb_version }}"
+  - "mongodb-org-mongos={{ mongodb_version }}"
+  - "mongodb-org-tools={{ mongodb_version }}"
+#bindIp: 127.0.0.1 # TODO: Remove when done testing

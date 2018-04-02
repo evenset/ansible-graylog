@@ -92,7 +92,7 @@ rest_listen_uri = {{ rest_listen_uri }}
 # Enable CORS headers for REST API. This is necessary for JS-clients accessing the server directly.
 # If these are disabled, modern browsers will not be able to retrieve resources from the server.
 # This is enabled by default. Uncomment the next line to disable it.
-#rest_enable_cors = false
+#rest_enable_cors = false #TODO: Check if we need cors
 
 # Enable GZIP support for REST API. This compresses API responses and therefore helps to reduce
 # overall round trip times. This is enabled by default. Uncomment the next line to disable it.
@@ -101,7 +101,7 @@ rest_listen_uri = {{ rest_listen_uri }}
 # Enable HTTPS support for the REST API. This secures the communication with the REST API with
 # TLS to prevent request forgery and eavesdropping. This is disabled by default. Uncomment the
 # next line to enable it.
-#rest_enable_tls = true
+#rest_enable_tls = true #TODO setup https below
 
 # The X.509 certificate chain file in PEM format to use for securing the REST API.
 #rest_tls_cert_file = /path/to/graylog.crt
@@ -149,7 +149,7 @@ web_endpoint_uri = {{ web_endpoint_uri }}
 # Enable HTTPS support for the web interface. This secures the communication of the web browser with the web interface
 # using TLS to prevent request forgery and eavesdropping.
 # This is disabled by default. Uncomment the next line to enable it and see the other related configuration settings.
-#web_enable_tls = true
+#web_enable_tls = true #TODO setup https below
 
 # The X.509 certificate chain file in PEM format to use for securing the web interface.
 #web_tls_cert_file = /path/to/graylog-web.crt
