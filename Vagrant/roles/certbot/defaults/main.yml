@@ -1,2 +1,2 @@
 ---
-certbot_auto_renew: yes
+certbot_auto_renew: setup_certbot

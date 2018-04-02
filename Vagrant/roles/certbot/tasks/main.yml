@@ -15,6 +15,7 @@
 
 - name: Run Certbot
   command: "/usr/bin/certbot certonly -n --agree-tos --standalone --email '{{ certbot_admin_email }}' -d '{{ nginx_server_name }}' --keep"
+  when: setup_certbot is defined and setup_certbot
 
 - name: Ensure NGINX is started
   service: name=nginx state=started

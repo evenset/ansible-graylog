@@ -13,6 +13,11 @@ nginx_strong_dh_group: no
 nginx_static_dir: static
 nginx_use_letsencrypt: no
 nginx_strong_dh_group: no
+certbot_admin_email: "connory@evenset.com"
+
+nginx_use_letsencrypt: yes
+nginx_strong_dh_group: yes
+
 
 # Node related
 node_server_path: http://localhost:5000
