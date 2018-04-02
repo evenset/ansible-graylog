@@ -17,4 +17,4 @@
     #- certbot # TODO: Move to production inventory
     #- graylog
     - nginx
-    #- ufw
+    - ufw
