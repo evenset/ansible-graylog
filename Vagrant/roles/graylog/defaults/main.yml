@@ -1,7 +1,7 @@
 ---
 
-rest_listen_uri: http://0.0.0.0:9000/api/
-web_listen_uri: http://0.0.0.0:9000/
+rest_listen_uri: http://127.0.0.1:9000/api/
+web_listen_uri: http://127.0.0.1:9001/
 web_endpoint_uri: http://127.0.0.1:9000/api/
 
 # You should change these defaults for security reasons.

@@ -23,9 +23,9 @@
   apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/3.4 multiverse' state=present
 
 - name: Install MongoDB
-  apt: name=mongodb-org-server state=installed
+  apt: name=mongodb-org-server update_cache={{ update_apt_cache }} state=installed allow_unauthenticated=yes
 
-# - name: Install MongoDB
+# - name: Install MongoDB # Suggested not to use the default ubuntu package but instead retrieve directly from mongo-org.
 #   apt: name=mongodb-server state=installed
 
 - name: Add the ElasticSearch public GPG key to the apt repo
@@ -35,7 +35,6 @@
 - name: Add ElasticSearch to the trusted sources list
   apt_repository:
     repo: deb https://packages.elastic.co/elasticsearch/2.x/debian stable main
-    update_cache: "{{ update_apt_cache }}"
     state: present
 
 - name: Install ElasticSearch

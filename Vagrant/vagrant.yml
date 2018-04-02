@@ -15,6 +15,6 @@
   roles:
     - base
     #- certbot # TODO: Move to production inventory
-    #- graylog
-    - nginx
-    - ufw
+    - graylog
+    - nginx # TODO: Move to production inventory ??
+    - ufw # TODO: Move to production inventory ??
