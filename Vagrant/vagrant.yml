@@ -7,14 +7,14 @@
   remote_user: root
   vars:
     setup_git_repo: no  # set to no for local development and map your local git repo in the Vagrantfile instead
-    setup_certbot: no # Set to no for local development
+    setup_certbot: no # TODO: Move to production inventory
     update_apt_cache: yes
   vars_files:
     - env_vars/base.yml
     - env_vars/vagrant.yml
   roles:
     - base
-    - certbot
+    #- certbot # TODO: Move to production inventory
     #- graylog
     - nginx
     #- ufw

@@ -15,8 +15,8 @@ nginx_use_letsencrypt: no
 nginx_strong_dh_group: no
 certbot_admin_email: "connory@evenset.com"
 
-nginx_use_letsencrypt: yes
-nginx_strong_dh_group: yes
+nginx_use_letsencrypt: no # TODO: Set to true for production
+nginx_strong_dh_group: no # TODO: Set to true for production
 
 
 # Node related

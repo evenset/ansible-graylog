@@ -4,8 +4,10 @@ application_name: graylog
 
 nginx_server_name: "{{ inventory_hostname }}"
 nginx_ssl_dest_dir: /etc/ssl
-nginx_strong_dh_group: yes  # Strongly recomended in production. See weakdh.org.
-nginx_use_letsencrypt: yes
+# TODO Set to yes for production
+nginx_strong_dh_group: no  # Strongly recomended in production. See weakdh.org.
+# TODO Set to yes for production
+nginx_use_letsencrypt: no
 
 # Only used when nginx_use_letsencrypt is set to yes/true. The 'certbot' role will automatically generate these files.
 letsencrypt_dir: "/etc/letsencrypt/live/{{ inventory_hostname }}"
