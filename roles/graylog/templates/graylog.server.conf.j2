@@ -359,6 +359,7 @@ output_fault_penalty_seconds = 30
 
 # The number of parallel running processors.
 # Raise this number if your buffers are filling up.
+# The sum of these numbers must be <= to the number of available cores.
 processbuffer_processors = 5
 outputbuffer_processors = 3
 
@@ -456,7 +457,8 @@ lb_recognition_period_seconds = 3
 mongodb_uri = mongodb://localhost/graylog
 
 # Authenticate against the MongoDB server
-#mongodb_uri = mongodb://grayloguser:secret@localhost:27017/graylog
+#TODO set user/password out of vars
+#mongodb_uri = mongodb://grayloguser:password@localhost:27017/graylog
 
 # Use a replica set instead of a single host
 #mongodb_uri = mongodb://grayloguser:secret@localhost:27017,localhost:27018,localhost:27019/graylog

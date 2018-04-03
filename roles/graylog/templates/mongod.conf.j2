@@ -31,6 +31,9 @@ security:
 {% if not mongodb_enable_localhost_auth_bypass %}
 setParameter:
   enableLocalhostAuthBypass: false
+{% else %}
+setParameter:
+  enableLocalhostAuthBypass: true
 {% endif %}
 systemLog:
   destination: file
