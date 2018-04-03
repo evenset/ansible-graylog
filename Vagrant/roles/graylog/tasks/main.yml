@@ -14,14 +14,20 @@
     #- pwgen # Cant find package
 
 - block:
-    - name: Add MongoDB key
+    - name: Import mongodb-org gpg public signing key | python version > 2.7.6
       apt_key:
-        keyserver: keyserver.ubuntu.com
-        id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+        url: "{{ mongodb_signing_key_url }}"
+        state: present
+      when: ansible_python_version|version_compare('2.7.6', '>')
+
+    - name: Add mongodb-org apt repository to sources.list
+      apt_repository:
+        repo: "{{ mongodb_apt_repo }}"
+        update_cache: yes
         state: present
 
-    - name: Add MongoDB Repo
-      apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/3.4 multiverse' state=present
+  #  - name: Add MongoDB Repo
+   #   apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/3.4 multiverse' state=present
 
     - name: Create MongoDB Configuration
       template:
@@ -92,7 +98,7 @@
     state: present
 
 - name: Install ElasticSearch
-  apt: name=elasticsearch state=installed
+  apt: name=elasticsearch state=present
 
 - name: Copy the ElasticSearch configuration file
   template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml owner=root group=elasticsearch mode=0750 force=yes
@@ -107,7 +113,7 @@
 - name: Install the Graylog repository package
   apt:
     deb: '/tmp/graylog_repository.deb'
-    state: installed
+    state: present
     dpkg_options: 'force-all'
   register: install_repo
 

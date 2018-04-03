@@ -22,14 +22,3 @@ nginx_strong_dh_group: no # TODO: Set to true for production
 # Node related
 node_server_path: http://localhost:5000
 
-# MongdoDB Settings
-mongodb_service_name: mongod
-mongodb_user: mongodb
-mongodb_group: mongodb
-mongodb_packages:
-  - "mongodb-org={{ mongodb_version }}"
-  - "mongodb-org-server={{ mongodb_version }}"
-  - "mongodb-org-shell={{ mongodb_version }}"
-  - "mongodb-org-mongos={{ mongodb_version }}"
-  - "mongodb-org-tools={{ mongodb_version }}"
-#bindIp: 127.0.0.1 # TODO: Remove when done testing
