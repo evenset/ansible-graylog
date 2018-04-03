@@ -94,7 +94,7 @@
 
 - name: Add ElasticSearch to the trusted sources list
   apt_repository:
-    repo: deb https://packages.elastic.co/elasticsearch/2.x/debian stable main
+    repo: deb https://packages.elastic.co/elasticsearch/2.x/debian stable main # TODO: Use var here
     state: present
 
 - name: Install ElasticSearch
@@ -105,9 +105,9 @@
   notify: restart elasticsearch
 
 
-- name: Download the Graylog repository package
+- name: Download the Graylog repository package # TODO Set to latest repo
   get_url:
-    url: 'https://packages.graylog2.org/repo/packages/graylog-2.2-repository_latest.deb'
+    url: "{{ graylog_apt_repo }}"
     dest: '/tmp/graylog_repository.deb'
 
 - name: Install the Graylog repository package

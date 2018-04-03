@@ -5,8 +5,26 @@ web_listen_uri: http://127.0.0.1:9000/
 web_endpoint_uri: http://127.0.0.1:9000/api/
 
 # You should change these defaults for security reasons.
-graylog_password_secret: Gahfoh1ooqu9toxai8lah2xingooVohgae1aorich7faengaJaegh8yaeNgeeT0eiNgohs9phais6phae8Chahpoogho5aic
+# If running multiple servers, this secret should be the same for all of them.
+graylog_password_secret: Hw3R5xMCSv7sAdhjjNFL0qhbMkD4avrVIPvW0cwHSok077GG5R22fFvXujCd9pBcJTSYYMufb8bOtzQh2J2rH4ExFYD5nOMi
+# The default user is "admin" and the default password is "password".
 graylog_root_password_sha2: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+
+
+
+# Graylog Config
+## Package
+graylog_version: 2.4
+graylog_apt_repo: "https://packages.graylog2.org/repo/packages/graylog-{{ graylog_version }}-repository_latest.deb"
+
+# ElasticSearch Config
+## Package
+
+# Graylog 2.4 does run with elastic search 6.x.
+# See http://docs.graylog.org/en/latest/pages/installation/operating_system_packages.html
+# for details.
+elasticsearch_version: "5.x"
+elasticsearch_apt_repo: "https://packages.elastic.co/elasticsearch/{{ elasticsearch_version }}/debian stable main"
 
 # MongoDB Config
 ## Package
