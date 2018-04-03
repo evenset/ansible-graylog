@@ -11,6 +11,7 @@ graylog_password_secret: Hw3R5xMCSv7sAdhjjNFL0qhbMkD4avrVIPvW0cwHSok077GG5R22fFv
 graylog_root_password_sha2: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 
 
+# TODO: There was an issue parsing these vars. Fix them and use them to install graylog and elastic search
 # Graylog Config
 ## Package
 # graylog_version: 2.4
@@ -61,13 +62,11 @@ mongodb_storage_engine: "wiredTiger"
 mongodb_journal_enabled: true
 mongodb_profiling_threshold: 100
 mongodb_profiling_mode: "off"
-
-
+mongodb_is_arbiter: false
 
 # Allows an auth bypass to create the first user in the db
 mongodb_enable_localhost_auth_bypass: true
-mongodb_is_arbiter: false
-mongodb_authorization_enabled: true
+mongodb_authorization_enabled: false # TODO: This is not working so its disabled
 
 mongodb_user_admin_name: 'admin'
 mongodb_user_admin_password: 'password'

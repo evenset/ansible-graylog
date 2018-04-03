@@ -9,7 +9,6 @@ remote_user: root
 
 # Nginx settings.
 nginx_server_name: 192.168.20.20 # TODO: Set to server
-nginx_strong_dh_group: no
 nginx_static_dir: static
 nginx_use_letsencrypt: no # TODO: Set to true for production
 nginx_strong_dh_group: no # TODO: Set to true for production
