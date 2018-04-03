@@ -98,12 +98,13 @@
       tags:
         - mongodb
 
+    # Visit <https://docs.mongodb.com/manual/reference/built-in-roles/> for role information, non-supported roles by ansible mobodb_user must be wrapped in quotes.
     - name: Setup MongoDB User for Admin DB
       mongodb_user:
         database: admin
         name: "{{ mongodb_user_admin_name }}"
         password: "{{ mongodb_user_admin_password }}"
-        roles: "dbAdminAnyDatabase"
+        roles: "root"
         state: present
       when: ( mongodb_authorization_enabled and mongodb_user_admin_check.rc != 0 )
       tags:
@@ -112,12 +113,12 @@
     - name: Setup MongoDB User for Graylog DB
       mongodb_user:
         database: graylog
-        login_database: admin
+        login_database: "admin"
         login_user: "{{ mongodb_user_admin_name }}"
         login_password: "{{ mongodb_user_admin_password }}"
-        name: grayloguser
-        password: password #TODO Set to env vars
-        roles: "dbAdmin"
+        name: "grayloguser"
+        password: "password" #TODO Set to env vars
+        roles: dbAdmin
         state: present
       when: ( mongodb_authorization_enabled and mongodb_user_admin_check.rc != 0 )
       tags:
@@ -142,7 +143,7 @@
 
 - name: Add ElasticSearch to the trusted sources list
   apt_repository:
-    repo: "deb {{ elasticsearch_apt_repo }}"
+    repo: deb https://packages.elastic.co/elasticsearch/2.x/debian stable main
     state: present
 
 - name: Install ElasticSearch
@@ -156,7 +157,7 @@
 
 - name: Download the Graylog repository package
   get_url:
-    url: "{{ graylog_apt_repo }}"
+    url: 'https://packages.graylog2.org/repo/packages/graylog-2.2-repository_latest.deb'
     dest: '/tmp/graylog_repository.deb'
 
 - name: Install the Graylog repository package
