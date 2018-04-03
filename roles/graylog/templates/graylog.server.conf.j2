@@ -303,7 +303,7 @@ elasticsearch_discovery_zen_ping_unicast_hosts = ["127.0.0.1:9300"]
 # override them here or in the 'elasticsearch_config_file' if you need to bind to a special address
 # refer to https://www.elastic.co/guide/en/elasticsearch/reference/2.3/modules-network.html
 # for special values here
-elasticsearch_network_host = 127.0.0.1
+# elasticsearch_network_host = 127.0.0.1
 #elasticsearch_network_bind_host =
 #elasticsearch_network_publish_host =
 
@@ -359,6 +359,7 @@ output_fault_penalty_seconds = 30
 
 # The number of parallel running processors.
 # Raise this number if your buffers are filling up.
+# The sum of these numbers must be <= to the number of available cores.
 processbuffer_processors = 5
 outputbuffer_processors = 3
 
@@ -454,13 +455,16 @@ lb_recognition_period_seconds = 3
 # MongoDB connection string
 # See https://docs.mongodb.com/manual/reference/connection-string/ for details
 {% if mongodb_authorization_enabled %}
+    #TODO set user/password out of vars
+    #TODO This is not working.
     mongodb_uri = mongodb://grayloguser:password@localhost:27017/graylog
 {% else %}
     mongodb_uri = mongodb://localhost/graylog
 {% endif %}
 
+
 # Authenticate against the MongoDB server
-#mongodb_uri = mongodb://grayloguser:secret@localhost:27017/graylog
+#mongodb_uri = mongodb://grayloguser:password@localhost:27017/graylog
 
 # Use a replica set instead of a single host
 #mongodb_uri = mongodb://grayloguser:secret@localhost:27017,localhost:27018,localhost:27019/graylog

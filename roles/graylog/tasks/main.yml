@@ -11,7 +11,18 @@
     - apt-transport-https
     - openjdk-8-jre-headless
     - uuid-runtime
-    #- pwgen # Cant find package
+
+# --- mongoDB ---
+
+- name: Install Pip via Package
+  apt: name=python3-pip update_cache={{ update_apt_cache }} state=installed
+  tags:
+    - mongodb
+
+- name: Install PyMongo from PIP
+  pip: name=pymongo state=present
+  tags:
+    - mongodb
 
 - name: Install Pip via Package
   apt: name=python3-pip update_cache={{ update_apt_cache }} state=installed
@@ -65,6 +76,7 @@
       with_items:
         - "{{ mongodb_dbpath }}"
         - "{{ mongodb_logpath | dirname }}"
+      notify: restart mongodb
 
     - name: Ensure mongodb service is running and enabled on boot
       service:
@@ -120,26 +132,11 @@
   tags:
     - mongodb
 
-# - name: Create required directory for mongodb
-#   file: path=/data/db state=directory
-
-
-
-# - name: Install MongoDB
-#   block:
-#     - name: Retrieve and install package
-#       apt:
-#         name: mongodb-org
-#         update_cache: "{{ update_apt_cache }}"
-#         state: installed
-#         allow_unauthenticated: yes
-#     - name: set mongod INIT status and start
-#       service: name=mongod state=started enabled=yes
-#   become: true
-#   become_user: root
 
 # - name: Install MongoDB # Suggested not to use the default ubuntu package but instead retrieve directly from mongo-org.
 #   apt: name=mongodb-server state=installed
+
+# --- ElasticSearch ---
 
 - name: Add the ElasticSearch public GPG key to the apt repo
   apt_key: url=https://packages.elastic.co/GPG-KEY-elasticsearch
@@ -147,7 +144,7 @@
 
 - name: Add ElasticSearch to the trusted sources list
   apt_repository:
-    repo: deb https://packages.elastic.co/elasticsearch/2.x/debian stable main # TODO: Use var here
+    repo: deb https://packages.elastic.co/elasticsearch/2.x/debian stable main
     state: present
 
 - name: Install ElasticSearch
@@ -157,10 +154,11 @@
   template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml owner=root group=elasticsearch mode=0750 force=yes
   notify: restart elasticsearch
 
+# --- Graylog ---
 
 - name: Download the Graylog repository package
   get_url:
-    url: "{{ graylog_apt_repo }}"
+    url: 'https://packages.graylog2.org/repo/packages/graylog-2.2-repository_latest.deb'
     dest: '/tmp/graylog_repository.deb'
 
 - name: Install the Graylog repository package

@@ -11,11 +11,11 @@ graylog_password_secret: Hw3R5xMCSv7sAdhjjNFL0qhbMkD4avrVIPvW0cwHSok077GG5R22fFv
 graylog_root_password_sha2: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
 
 
-
+# TODO: There was an issue parsing these vars. Fix them and use them to install graylog and elastic search
 # Graylog Config
 ## Package
-graylog_version: 2.4
-graylog_apt_repo: "https://packages.graylog2.org/repo/packages/graylog-{{ graylog_version }}-repository_latest.deb"
+# graylog_version: 2.4
+# graylog_apt_repo: "https://packages.graylog2.org/repo/packages/graylog-{{ graylog_version }}-repository_latest.deb"
 
 # ElasticSearch Config
 ## Package
@@ -23,8 +23,8 @@ graylog_apt_repo: "https://packages.graylog2.org/repo/packages/graylog-{{ graylo
 # Graylog 2.4 does run with elastic search 6.x.
 # See http://docs.graylog.org/en/latest/pages/installation/operating_system_packages.html
 # for details.
-elasticsearch_version: "5.x"
-elasticsearch_apt_repo: "https://packages.elastic.co/elasticsearch/{{ elasticsearch_version }}/debian stable main"
+# elasticsearch_version: "5.x"
+# elasticsearch_apt_repo: "https://packages.elastic.co/elasticsearch/{{ elasticsearch_version }}/debian stable main"
 
 # MongoDB Config
 ## Pip
@@ -32,7 +32,6 @@ pip_download_dest: /tmp
 pip_version:
 python: python
 pip: pip
-
 
 ## Package
 mongodb_version: 3.4.14
@@ -53,7 +52,9 @@ mongodb_packages:
   - "mongodb-org-shell={{ mongodb_version }}"
   - "mongodb-org-mongos={{ mongodb_version }}"
   - "mongodb-org-tools={{ mongodb_version }}"
-#bindIp: 127.0.0.1 # TODO: Remove when done testing
+
+# Bind the mongodb so that it is only accessible from localhost.
+#mongodb_bind_ip: 127.0.0.1 #TODO
 mongodb_port: 27017
 mongodb_dbpath: /var/lib/mongodb
 mongodb_logpath: /var/log/mongodb/mongod.log
@@ -63,8 +64,10 @@ mongodb_profiling_threshold: 100
 mongodb_profiling_mode: "off"
 mongodb_is_arbiter: false
 
-
+# Allows an auth bypass to create the first user in the db
 mongodb_enable_localhost_auth_bypass: true
-mongodb_authorization_enabled: true
+mongodb_authorization_enabled: false # TODO: This is not working so its disabled
+
 mongodb_user_admin_name: 'admin'
 mongodb_user_admin_password: 'password'
+
