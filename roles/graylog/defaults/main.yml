@@ -27,6 +27,13 @@ elasticsearch_version: "5.x"
 elasticsearch_apt_repo: "https://packages.elastic.co/elasticsearch/{{ elasticsearch_version }}/debian stable main"
 
 # MongoDB Config
+## Pip
+pip_download_dest: /tmp
+pip_version:
+python: python
+pip: pip
+
+
 ## Package
 mongodb_version: 3.4.14
 mongodb_major_version:    "{{ mongodb_version.split('.')|first }}"
@@ -54,6 +61,10 @@ mongodb_storage_engine: "wiredTiger"
 mongodb_journal_enabled: true
 mongodb_profiling_threshold: 100
 mongodb_profiling_mode: "off"
-mongodb_enable_localhost_auth_bypass: true
 mongodb_is_arbiter: false
-mongodb_authorization_enabled: false
+
+
+mongodb_enable_localhost_auth_bypass: true
+mongodb_authorization_enabled: true
+mongodb_user_admin_name: 'admin'
+mongodb_user_admin_password: 'password'

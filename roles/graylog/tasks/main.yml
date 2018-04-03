@@ -13,6 +13,16 @@
     - uuid-runtime
     #- pwgen # Cant find package
 
+- name: Install Pip via Package
+  apt: name=python3-pip update_cache={{ update_apt_cache }} state=installed
+  tags:
+    - mongodb
+
+- name: Install PyMongo from PIP
+  pip: name=pymongo state=present
+  tags:
+    - mongodb
+
 - block:
     - name: Import mongodb-org gpg public signing key | python version > 2.7.6
       apt_key:
@@ -36,6 +46,7 @@
         owner: root
         group: root
         mode: 0644
+      notify: restart mongodb
 
     - name: Install Mongodb Packages
       apt:
@@ -44,7 +55,7 @@
         update_cache: "{{ update_apt_cache }} "
       with_items: "{{ mongodb_packages }}"
 
-    - name: add mongodb directories
+    - name: Add Mongodb Directories
       file:
         state: directory
         path: "{{ item }}"
@@ -55,17 +66,59 @@
         - "{{ mongodb_dbpath }}"
         - "{{ mongodb_logpath | dirname }}"
 
-    - name: ensure mongodb service is running and enabled on boot
+    - name: Ensure mongodb service is running and enabled on boot
       service:
         name: "{{ mongodb_service_name }}"
         enabled: yes
         state: started
 
+    - name: Check where admin user already exists
+      command: >
+        mongo --quiet -u {{ mongodb_user_admin_name }} \
+              -p {{ mongodb_user_admin_password }} --port {{ mongodb_port }} --eval 'db.version()' admin
+      register: mongodb_user_admin_check
+      changed_when: false
+      check_mode: no
+      ignore_errors: true
+      when: ( mongodb_authorization_enabled == true )
+      no_log: true
+      tags:
+        - mongodb
+
+    - debug:
+        var: mongodb_user_admin_check
+
+    # Visit <https://docs.mongodb.com/manual/reference/built-in-roles/> for role information, non-supported roles by ansible mobodb_user must be wrapped in quotes.
+    - name: Setup MongoDB User for Admin DB
+      mongodb_user:
+        database: admin
+        name: "{{ mongodb_user_admin_name }}"
+        password: "{{ mongodb_user_admin_password }}"
+        roles: "root"
+        state: present
+      when: ( mongodb_authorization_enabled and mongodb_user_admin_check.rc != 0 )
+      tags:
+        - mongodb
+
+    - name: Setup MongoDB User for Graylog DB
+      mongodb_user:
+        database: graylog
+        login_database: "admin"
+        login_user: "{{ mongodb_user_admin_name }}"
+        login_password: "{{ mongodb_user_admin_password }}"
+        name: "grayloguser"
+        password: "password" #TODO Set to env vars
+        roles: dbAdmin
+        state: present
+      when: ( mongodb_authorization_enabled and mongodb_user_admin_check.rc != 0 )
+      tags:
+        - mongodb
+
     - meta: flush_handlers
   become: true
   become_method: sudo
   tags:
-    - mongodb-3.0
+    - mongodb
 
 # - name: Create required directory for mongodb
 #   file: path=/data/db state=directory
@@ -105,7 +158,7 @@
   notify: restart elasticsearch
 
 
-- name: Download the Graylog repository package # TODO Set to latest repo
+- name: Download the Graylog repository package
   get_url:
     url: "{{ graylog_apt_repo }}"
     dest: '/tmp/graylog_repository.deb'

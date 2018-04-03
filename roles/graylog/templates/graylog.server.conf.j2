@@ -453,7 +453,11 @@ lb_recognition_period_seconds = 3
 
 # MongoDB connection string
 # See https://docs.mongodb.com/manual/reference/connection-string/ for details
-mongodb_uri = mongodb://localhost/graylog
+{% if mongodb_authorization_enabled %}
+    mongodb_uri = mongodb://grayloguser:password@localhost:27017/graylog
+{% else %}
+    mongodb_uri = mongodb://localhost/graylog
+{% endif %}
 
 # Authenticate against the MongoDB server
 #mongodb_uri = mongodb://grayloguser:secret@localhost:27017/graylog
