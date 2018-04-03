@@ -1,0 +1,27 @@
+# cache directories
+Thumbs.db
+*.DS_Store
+*.empty
+
+#pycharm project files
+.idea
+
+# sass cache files
+*.sass-cache
+
+# mac deployment helpers
+switch
+index
+
+#node files
+node_modules
+
+#bower files
+bower_components
+
+.vagrant/
+*.retry
+*.swp
+*.swo
+*~
+.log

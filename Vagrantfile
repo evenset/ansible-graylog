@@ -12,12 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 
   config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--name", "MyNodeApp", "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--name", "Graylog-server", "--memory", "2048"]
   end
-
-  # Shared folder from the host machine to the guest machine.
-  # To enable it, uncomment the line below and fix the correct paths [refer to ansbile]
-  #config.vm.synced_folder "../../../my-node-app", "/webapps/mynodeapp/my-node-app"
 
   # Ansible provisioner
   config.vm.provision "ansible" do |ansible|
