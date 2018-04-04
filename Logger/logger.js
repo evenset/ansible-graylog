@@ -66,16 +66,16 @@ if (dev) {
 // This is working!
 
 console.log('Started');
-const version = 8;
-logger.test('Test');
+const version = 13;
+logger.test('Test'+ version);
 logger.debug('Test Debug Message ' + version);
 logger.info('Test Default Logger Message ' + version);
-logger.notice('notice');
+logger.notice('notice' + version);
 logger.warn('Test Warn Message ' + version);
 logger.error('Test Error Message ' + version);
-logger.alert('alert');
-logger.emerg('emergercy');
-logger.crit('critical');
+logger.alert('alert'+ version);
+logger.emerg('emergercy'+ version);
+logger.crit('critical'+ version);
 
 
 logger.close();
