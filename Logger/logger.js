@@ -5,12 +5,12 @@ const options = {
     name: 'testTransport',
     level: 'debug',
     graylog: {
-        servers: [{ host: '192.168.20.20', port: 12201 }],
+        servers: [{ host: '192.168.0.38', port: 514 }],
         hostname: 'testwinston',
         facility: 'testwinstonfacility',
         bufferSize: 1350,
     },
-    staticMeta: { env: 'test' },
+    // staticMeta: { env: 'test' },
 };
 
 const grayLoggerTransport = new(WinstonGraylog2)(options);
@@ -66,16 +66,16 @@ if (dev) {
 // This is working!
 
 console.log('Started');
-const version = 13;
-logger.test('Test'+ version);
+const version = 7;
+logger.test('Test');
 logger.debug('Test Debug Message ' + version);
 logger.info('Test Default Logger Message ' + version);
-logger.notice('notice' + version);
+logger.notice('notice');
 logger.warn('Test Warn Message ' + version);
 logger.error('Test Error Message ' + version);
-logger.alert('alert'+ version);
-logger.emerg('emergercy'+ version);
-logger.crit('critical'+ version);
+logger.alert('alert');
+logger.emerg('emergercy');
+logger.crit('critical');
 
 
 logger.close();
