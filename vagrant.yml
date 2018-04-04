@@ -17,4 +17,4 @@
     #- certbot # TODO: Move to production inventory
     - graylog
     - nginx
-    #- ufw # TODO: We don't need this one
+    #- ufw # Unneeded if deploying behind a service

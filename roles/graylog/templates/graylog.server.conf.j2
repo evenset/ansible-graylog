@@ -87,7 +87,6 @@ rest_listen_uri = {{ rest_listen_uri }}
 # You will need to define this, if your Graylog server is running behind a HTTP proxy that is rewriting
 # the scheme, host name or URI.
 # This must not contain a wildcard address (0.0.0.0).
-# TODO this one throws an error on input streams (raw udp)
 #rest_transport_uri = http://192.168.20.20:9000/api/
 
 # Enable CORS headers for REST API. This is necessary for JS-clients accessing the server directly.
@@ -305,7 +304,7 @@ elasticsearch_cluster_name = graylog
 # override them here or in the 'elasticsearch_config_file' if you need to bind to a special address
 # refer to https://www.elastic.co/guide/en/elasticsearch/reference/2.3/modules-network.html
 # for special values here
-# elasticsearch_network_host = 127.0.0.1
+#elasticsearch_network_host = 127.0.0.1
 #elasticsearch_network_bind_host =
 #elasticsearch_network_publish_host =
 
@@ -457,16 +456,12 @@ lb_recognition_period_seconds = 3
 # MongoDB connection string
 # See https://docs.mongodb.com/manual/reference/connection-string/ for details
 {% if mongodb_authorization_enabled %}
-    #TODO set user/password out of vars
-    #TODO This is not working.
-    mongodb_uri = mongodb://grayloguser:password@localhost:27017/graylog
+    # Authenticate against the MongoDB server
+    mongodb_uri = {{ authenticated_mongodb_connection_uri }}
 {% else %}
-    mongodb_uri = mongodb://localhost/graylog
+    # Connect without authentication
+    mongodb_uri = {{ unauthenticated_mongodb_connection_uri }}
 {% endif %}
-
-
-# Authenticate against the MongoDB server
-#mongodb_uri = mongodb://grayloguser:password@localhost:27017/graylog
 
 # Use a replica set instead of a single host
 #mongodb_uri = mongodb://grayloguser:secret@localhost:27017,localhost:27018,localhost:27019/graylog

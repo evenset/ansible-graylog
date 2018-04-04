@@ -97,9 +97,6 @@
       tags:
         - mongodb
 
-    - debug:
-        var: mongodb_user_admin_check
-
     # Visit <https://docs.mongodb.com/manual/reference/built-in-roles/> for role information, non-supported roles by ansible mobodb_user must be wrapped in quotes.
     - name: Setup MongoDB User for Admin DB
       mongodb_user:
@@ -118,8 +115,8 @@
         login_database: "admin"
         login_user: "{{ mongodb_user_admin_name }}"
         login_password: "{{ mongodb_user_admin_password }}"
-        name: "grayloguser"
-        password: "password" #TODO Set to env vars
+        name: "{{ mongodb_graylog_username }}"
+        password: "{{ mongodb_graylog_password }}"
         roles: "dbOwner"
         state: present
       when: ( mongodb_authorization_enabled and mongodb_user_admin_check.rc != 0 )
@@ -132,8 +129,8 @@
   tags:
     - mongodb
 
-
-# - name: Install MongoDB # Suggested not to use the default ubuntu package but instead retrieve directly from mongo-org.
+# Suggested not to use the default ubuntu package but instead retrieve directly from mongo-org.
+# - name: Install MongoDB
 #   apt: name=mongodb-server state=installed
 
 # --- ElasticSearch ---
