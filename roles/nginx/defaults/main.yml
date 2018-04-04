@@ -5,7 +5,7 @@ application_name: graylog
 nginx_server_name: "{{ inventory_hostname }}"
 nginx_ssl_dest_dir: /etc/ssl
 # TODO Set to yes for production
-nginx_strong_dh_group: no  # Strongly recomended in production. See weakdh.org.
+nginx_strong_dh_group: no # Strongly recommended in production. See weakdh.org.
 # TODO Set to yes for production
 nginx_use_letsencrypt: no
 

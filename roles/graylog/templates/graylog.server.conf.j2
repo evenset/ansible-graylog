@@ -55,7 +55,7 @@ node_id_file = /etc/graylog/server/node-id
 password_secret = {{ graylog_password_secret }}
 
 # The default root user is named 'admin'
-#root_username = admin
+root_username = admin
 
 # You MUST specify a hash password for the root user (which you only need to initially set up the
 # system and in case you lose connectivity to your authentication backend)
@@ -67,7 +67,7 @@ root_password_sha2 = {{ graylog_root_password_sha2 }}
 
 # The email address of the root user.
 # Default is empty
-#root_email = ""
+#root_email = "" #TODO
 
 # The time zone setting of the root user. See http://www.joda.org/joda-time/timezones.html for a list of valid time zones.
 # Default is UTC
@@ -87,7 +87,7 @@ rest_listen_uri = {{ rest_listen_uri }}
 # You will need to define this, if your Graylog server is running behind a HTTP proxy that is rewriting
 # the scheme, host name or URI.
 # This must not contain a wildcard address (0.0.0.0).
-#rest_transport_uri = http://192.168.1.1:9000/api/
+#rest_transport_uri = http://192.168.20.20:9000/api/
 
 # Enable CORS headers for REST API. This is necessary for JS-clients accessing the server directly.
 # If these are disabled, modern browsers will not be able to retrieve resources from the server.
@@ -101,7 +101,8 @@ rest_listen_uri = {{ rest_listen_uri }}
 # Enable HTTPS support for the REST API. This secures the communication with the REST API with
 # TLS to prevent request forgery and eavesdropping. This is disabled by default. Uncomment the
 # next line to enable it.
-#rest_enable_tls = true #TODO setup https below
+#TODO setup https below
+#rest_enable_tls = true
 
 # The X.509 certificate chain file in PEM format to use for securing the REST API.
 #rest_tls_cert_file = /path/to/graylog.crt
@@ -268,7 +269,7 @@ allow_highlighting = false
 # settings to be passed to elasticsearch's client (overriding those in the provided elasticsearch_config_file)
 # all these
 # this must be the same as for your Elasticsearch cluster
-#elasticsearch_cluster_name = graylog
+elasticsearch_cluster_name = graylog
 
 # The prefix being used to generate the Elasticsearch node name which makes it easier to identify the specific Graylog
 # server running the embedded Elasticsearch instance. The node name will be constructed by concatenating this prefix
@@ -282,7 +283,7 @@ allow_highlighting = false
 #elasticsearch_discovery_zen_ping_unicast_hosts = 127.0.0.1:9300
 
 # Use multiple Elasticsearch nodes as seed
-#elasticsearch_discovery_zen_ping_unicast_hosts = 198.51.100.23:9300, 198.51.100.42:9300
+#elasticsearch_discovery_zen_ping_unicast_hosts = ["127.0.0.1:9300"]
 
 # we don't want the Graylog server to store any data, or be master node
 #elasticsearch_node_master = false
@@ -303,7 +304,7 @@ allow_highlighting = false
 # override them here or in the 'elasticsearch_config_file' if you need to bind to a special address
 # refer to https://www.elastic.co/guide/en/elasticsearch/reference/2.3/modules-network.html
 # for special values here
-#elasticsearch_network_host =
+#elasticsearch_network_host = 127.0.0.1
 #elasticsearch_network_bind_host =
 #elasticsearch_network_publish_host =
 
@@ -359,6 +360,7 @@ output_fault_penalty_seconds = 30
 
 # The number of parallel running processors.
 # Raise this number if your buffers are filling up.
+# The sum of these numbers must be <= to the number of available cores.
 processbuffer_processors = 5
 outputbuffer_processors = 3
 
@@ -453,10 +455,13 @@ lb_recognition_period_seconds = 3
 
 # MongoDB connection string
 # See https://docs.mongodb.com/manual/reference/connection-string/ for details
-mongodb_uri = mongodb://localhost/graylog
-
-# Authenticate against the MongoDB server
-#mongodb_uri = mongodb://grayloguser:secret@localhost:27017/graylog
+{% if mongodb_authorization_enabled %}
+    # Authenticate against the MongoDB server
+    mongodb_uri = {{ authenticated_mongodb_connection_uri }}
+{% else %}
+    # Connect without authentication
+    mongodb_uri = {{ unauthenticated_mongodb_connection_uri }}
+{% endif %}
 
 # Use a replica set instead of a single host
 #mongodb_uri = mongodb://grayloguser:secret@localhost:27017,localhost:27018,localhost:27019/graylog

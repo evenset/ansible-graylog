@@ -8,17 +8,10 @@ remote_user: root
 #git_branch: develop
 
 # Nginx settings.
-nginx_server_name: 192.168.20.20 # TODO: Set to server (Use localhost for testing?)
-nginx_strong_dh_group: no
+nginx_server_name: 192.168.20.20 # TODO: Set to server
 nginx_static_dir: static
-nginx_use_letsencrypt: no
-nginx_strong_dh_group: no
-certbot_admin_email: "connory@evenset.com"
-
 nginx_use_letsencrypt: no # TODO: Set to true for production
 nginx_strong_dh_group: no # TODO: Set to true for production
+certbot_admin_email: "your@email.com" # TODO Change
 
-
-# Node related
-node_server_path: http://localhost:5000
 

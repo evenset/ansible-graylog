@@ -11,7 +11,28 @@
     - apt-transport-https
     - openjdk-8-jre-headless
     - uuid-runtime
-    #- pwgen # Cant find package
+
+# --- mongoDB ---
+
+- name: Install Pip via Package
+  apt: name=python3-pip update_cache={{ update_apt_cache }} state=installed
+  tags:
+    - mongodb
+
+- name: Install PyMongo from PIP
+  pip: name=pymongo state=present
+  tags:
+    - mongodb
+
+- name: Install Pip via Package
+  apt: name=python3-pip update_cache={{ update_apt_cache }} state=installed
+  tags:
+    - mongodb
+
+- name: Install PyMongo from PIP
+  pip: name=pymongo state=present
+  tags:
+    - mongodb
 
 - block:
     - name: Import mongodb-org gpg public signing key | python version > 2.7.6
@@ -36,6 +57,7 @@
         owner: root
         group: root
         mode: 0644
+      notify: restart mongodb
 
     - name: Install Mongodb Packages
       apt:
@@ -44,7 +66,7 @@
         update_cache: "{{ update_apt_cache }} "
       with_items: "{{ mongodb_packages }}"
 
-    - name: add mongodb directories
+    - name: Add Mongodb Directories
       file:
         state: directory
         path: "{{ item }}"
@@ -54,39 +76,64 @@
       with_items:
         - "{{ mongodb_dbpath }}"
         - "{{ mongodb_logpath | dirname }}"
+      notify: restart mongodb
 
-    - name: ensure mongodb service is running and enabled on boot
+    - name: Ensure mongodb service is running and enabled on boot
       service:
         name: "{{ mongodb_service_name }}"
         enabled: yes
         state: started
 
+    - name: Check where admin user already exists
+      command: >
+        mongo --quiet -u {{ mongodb_user_admin_name }} \
+              -p {{ mongodb_user_admin_password }} --port {{ mongodb_port }} --eval 'db.version()' admin
+      register: mongodb_user_admin_check
+      changed_when: false
+      check_mode: no
+      ignore_errors: true
+      when: ( mongodb_authorization_enabled == true )
+      no_log: true
+      tags:
+        - mongodb
+
+    # Visit <https://docs.mongodb.com/manual/reference/built-in-roles/> for role information, non-supported roles by ansible mobodb_user must be wrapped in quotes.
+    - name: Setup MongoDB User for Admin DB
+      mongodb_user:
+        database: admin
+        name: "{{ mongodb_user_admin_name }}"
+        password: "{{ mongodb_user_admin_password }}"
+        roles: "root"
+        state: present
+      when: ( mongodb_authorization_enabled and mongodb_user_admin_check.rc != 0 )
+      tags:
+        - mongodb
+
+    - name: Setup MongoDB User for Graylog DB
+      mongodb_user:
+        database: graylog
+        login_database: "admin"
+        login_user: "{{ mongodb_user_admin_name }}"
+        login_password: "{{ mongodb_user_admin_password }}"
+        name: "{{ mongodb_graylog_username }}"
+        password: "{{ mongodb_graylog_password }}"
+        roles: "dbOwner"
+        state: present
+      when: ( mongodb_authorization_enabled and mongodb_user_admin_check.rc != 0 )
+      tags:
+        - mongodb
+
     - meta: flush_handlers
   become: true
   become_method: sudo
   tags:
-    - mongodb-3.0
+    - mongodb
 
-# - name: Create required directory for mongodb
-#   file: path=/data/db state=directory
-
-
-
+# Suggested not to use the default ubuntu package but instead retrieve directly from mongo-org.
 # - name: Install MongoDB
-#   block:
-#     - name: Retrieve and install package
-#       apt:
-#         name: mongodb-org
-#         update_cache: "{{ update_apt_cache }}"
-#         state: installed
-#         allow_unauthenticated: yes
-#     - name: set mongod INIT status and start
-#       service: name=mongod state=started enabled=yes
-#   become: true
-#   become_user: root
-
-# - name: Install MongoDB # Suggested not to use the default ubuntu package but instead retrieve directly from mongo-org.
 #   apt: name=mongodb-server state=installed
+
+# --- ElasticSearch ---
 
 - name: Add the ElasticSearch public GPG key to the apt repo
   apt_key: url=https://packages.elastic.co/GPG-KEY-elasticsearch
@@ -104,6 +151,7 @@
   template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml owner=root group=elasticsearch mode=0750 force=yes
   notify: restart elasticsearch
 
+# --- Graylog ---
 
 - name: Download the Graylog repository package
   get_url:
