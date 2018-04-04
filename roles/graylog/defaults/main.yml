@@ -75,5 +75,5 @@ mongodb_user_admin_password: 'password'
 mongodb_graylog_username: 'grayloguser'
 mongodb_graylog_password: 'password'
 
-authenticated_mongodb_connection_uri: "mongodb://{{ mongodb_graylog_username }}: {{ mongodb_graylog_password }}@{{ mongodb_site }}:{{ mongodb_port }}/graylog"
+authenticated_mongodb_connection_uri: "mongodb://{{ mongodb_graylog_username }}:{{ mongodb_graylog_password }}@{{ mongodb_site }}:{{ mongodb_port }}/graylog"
 unauthenticated_mongodb_connection_uri: "mongodb://{{ mongodb_site }}:{{ mongodb_port }}/graylog"
