@@ -87,7 +87,8 @@ rest_listen_uri = {{ rest_listen_uri }}
 # You will need to define this, if your Graylog server is running behind a HTTP proxy that is rewriting
 # the scheme, host name or URI.
 # This must not contain a wildcard address (0.0.0.0).
-#rest_transport_uri = http://192.168.20.20:9000/api/ # TODO this one throws an error on input streams (raw udp)
+# TODO this one throws an error on input streams (raw udp)
+#rest_transport_uri = http://192.168.20.20:9000/api/
 
 # Enable CORS headers for REST API. This is necessary for JS-clients accessing the server directly.
 # If these are disabled, modern browsers will not be able to retrieve resources from the server.
@@ -101,7 +102,8 @@ rest_listen_uri = {{ rest_listen_uri }}
 # Enable HTTPS support for the REST API. This secures the communication with the REST API with
 # TLS to prevent request forgery and eavesdropping. This is disabled by default. Uncomment the
 # next line to enable it.
-#rest_enable_tls = true #TODO setup https below
+#TODO setup https below
+#rest_enable_tls = true
 
 # The X.509 certificate chain file in PEM format to use for securing the REST API.
 #rest_tls_cert_file = /path/to/graylog.crt
@@ -282,7 +284,7 @@ elasticsearch_cluster_name = graylog
 #elasticsearch_discovery_zen_ping_unicast_hosts = 127.0.0.1:9300
 
 # Use multiple Elasticsearch nodes as seed
-elasticsearch_discovery_zen_ping_unicast_hosts = ["127.0.0.1:9300"]
+#elasticsearch_discovery_zen_ping_unicast_hosts = ["127.0.0.1:9300"]
 
 # we don't want the Graylog server to store any data, or be master node
 #elasticsearch_node_master = false
