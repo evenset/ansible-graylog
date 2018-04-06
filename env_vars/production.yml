@@ -1,0 +1,9 @@
+---
+# Nginx settings.
+nginx_server_name: example.com
+nginx_static_dir: static
+nginx_use_letsencrypt: yes
+nginx_strong_dh_group: yes
+certbot_admin_email: "info@evenset.com" 
+
+
