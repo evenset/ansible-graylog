@@ -1,9 +1,6 @@
 ---
 # Application config
 application_name: graylog
-#application_root_dir: '/webapp'
-#application_src_dir: '{{ application_root_dir }}/{{ application_name }}'
-#use_yarn: True
 
 # Self-signed Key and certificate for Nginx
 # Replace these if you have purchased your own certificates
