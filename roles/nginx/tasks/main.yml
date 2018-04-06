@@ -37,8 +37,5 @@
 - name: Ensure Nginx service is started
   service: name=nginx state=started enabled=yes
 
-- name: reload nginx
-  service: name=nginx state=reloaded
-
 - name: restart nginx
   service: name=nginx state=restarted
