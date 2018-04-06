@@ -13,9 +13,15 @@
   service: name=nginx state=stopped
   when: nginx_status.stat.exists
 
-- name: Run Certbot
-  command: "/usr/bin/certbot certonly -n --agree-tos --standalone --email '{{ certbot_admin_email }}' -d '{{ nginx_server_name }}' --keep"
-  when: setup_certbot is defined and setup_certbot
+#- name: Run Certbot
+#  command: "/usr/bin/certbot certonly -n --agree-tos --standalone --email '{{ certbot_admin_email }}' -d '{{ nginx_server_name }}' --keep"
+#  when: setup_certbot is defined and setup_certbot
+
+- name: Install certbot and generate cert {{ inventory_hostname }}
+  command: "/usr/bin/certbot certonly --noninteractive --agree-tos --standalone --email {{ certbot_admin_email }} -d {{ inventory_hostname }}"
+  args:
+    creates: "{{ certbot_output_dir }}"
+
 
 - name: Ensure NGINX is started
   service: name=nginx state=started

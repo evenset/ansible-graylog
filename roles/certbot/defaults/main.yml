@@ -1,2 +1,4 @@
 ---
 certbot_auto_renew: setup_certbot
+certbot_script: /usr/bin/certbot
+certbot_output_dir: "/etc/letsencrypt/live/{{ inventory_hostname }}"
