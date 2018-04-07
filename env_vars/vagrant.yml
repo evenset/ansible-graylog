@@ -2,11 +2,6 @@
 
 remote_user: root
 
-# Git config
-#setup_git_repo: yes
-#git_repo: "git@git.evenset.com:sca/webserver.git"
-#git_branch: develop
-
 # Nginx settings.
 nginx_server_name: 192.168.20.20 # TODO: Set to server
 nginx_static_dir: static
