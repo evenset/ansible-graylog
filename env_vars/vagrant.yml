@@ -3,10 +3,13 @@
 remote_user: root
 
 # Nginx settings.
-nginx_server_name: 192.168.20.20 # TODO: Set to server
+nginx_server_name: 192.168.20.20
 nginx_static_dir: static
-nginx_use_letsencrypt: no # TODO: Set to true for production
-nginx_strong_dh_group: no # TODO: Set to true for production
-certbot_admin_email: "your@email.com" # TODO Change
-
+nginx_use_letsencrypt: no
+nginx_strong_dh_group: no
+certbot_admin_email: "your@email.com"
+# Cors Settings
+nginx_cors_urls: 'http://localhost:8080'
+nginx_cors_url_regexs: 'https?://(localhost:8080|www\.example\.com|www\.example2\.org)$'
+nginx_cors_methods: 'POST, OPTIONS'
 

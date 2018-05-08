@@ -4,6 +4,9 @@ nginx_server_name: example.com
 nginx_static_dir: static
 nginx_use_letsencrypt: yes
 nginx_strong_dh_group: yes
-certbot_admin_email: "info@example.com" 
-
+certbot_admin_email: "info@example.com"
+# Cors Settings
+## Set as empty string or '0' to disable
+nginx_cors_url_regexs: 'https?://(localhost:5000|www\.example\.com|www\.example2\.org)'
+nginx_cors_methods: 'GET,POST,OPTIONS'
 
